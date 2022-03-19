@@ -34,7 +34,7 @@ PBIS-config-Shell-{{ shell }}:
         fi;
         exit $ret;
     '
-    - onlyif: test $({{ join_domain.install_bin_dir }}/bin/config --show {{ shell }} | grep -q -i "{{ join_domain.login_shell }}")$? -ne 0
+    - unless: {{ join_domain.install_bin_dir }}/bin/config --show {{ shell }} | grep -q -i "{{ join_domain.login_shell }}"
     - require:
       - pkg: PBIS-install
 {%- endfor %}
@@ -51,7 +51,7 @@ PBIS-config-Home-{{ home }}:
         fi;
         exit $ret;
     '
-    - onlyif: test $({{ join_domain.install_bin_dir }}/bin/config --show {{ home }} | grep -q -i "{{ join_domain.login_home }}")$? -ne 0
+    - unless: {{ join_domain.install_bin_dir }}/bin/config --show {{ home }} | grep -q -i "{{ join_domain.login_home }}"
     - require:
       - pkg: PBIS-install
 {%- endfor %}
@@ -59,16 +59,16 @@ PBIS-config-Home-{{ home }}:
 PBIS-config-TrustIgnore:
   cmd.run:
     - name: {{ join_domain.install_bin_dir }}/bin/config DomainManagerIgnoreAllTrusts true
-    - onlyif: test $({{ join_domain.install_bin_dir }}/bin/config --show DomainManagerIgnoreAllTrusts | grep -q -i "true")$? -ne 0
+    - unless: {{ join_domain.install_bin_dir }}/bin/config --show DomainManagerIgnoreAllTrusts | grep -q -i "true"
     - require:
       - pkg: PBIS-install
 
 PBIS-config-TrustList:
   cmd.run:
     - name: {{ join_domain.install_bin_dir }}/bin/config DomainManagerIncludeTrustsList {{ trusted_domains | join (' ') }}
-    - onlyif:
+    - unless:
       {%- for check_domain in trusted_domains %}
-      - test $({{ join_domain.install_bin_dir }}/bin/config --show DomainManagerIncludeTrustsList | grep -q -i "{{ check_domain }}")$? -ne 0
+      - {{ join_domain.install_bin_dir }}/bin/config --show DomainManagerIncludeTrustsList | grep -q -i "{{ check_domain }}"
       {%- endfor %}
     - require:
       - pkg: PBIS-install
@@ -84,7 +84,7 @@ PBIS-disable-NssEnumeration:
         fi;
         exit $ret;
     '
-    - onlyif: test $({{ join_domain.install_bin_dir }}/bin/config --show NssEnumerationEnabled | grep -q -i "false")$? -ne 0
+    - unless: {{ join_domain.install_bin_dir }}/bin/config --show NssEnumerationEnabled | grep -q -i "false"
     - require:
       - pkg: PBIS-install
 
@@ -99,6 +99,6 @@ PBIS-enable-LdapSignAndSeal:
         fi;
         exit $ret;
     '
-    - onlyif: test $({{ join_domain.install_bin_dir }}/bin/config --show LdapSignAndSeal | grep -q -i "true")$? -ne 0
+    - unless: {{ join_domain.install_bin_dir }}/bin/config --show LdapSignAndSeal | grep -q -i "true"
     - require:
       - pkg: PBIS-install

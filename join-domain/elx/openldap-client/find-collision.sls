@@ -12,8 +12,13 @@
 RPM-installs:
   pkg.installed:
     - pkgs:
+{%- if salt['grains.get']('osfamilly') == 'RedHat' %}
       - openldap-clients
       - bind-utils
+{%- elif salt['grains.get']('os_family') == 'Debian' %}
+      - ldap-utils
+      - dnsutils
+{%- endif %}
     - allow_updates: True
 
 LDAP-FindCollison:
@@ -27,6 +32,9 @@ LDAP-FindCollison:
     - name: 'find-collisions.sh -d "{{ join_domain.dns_name }}" -u "{{ join_domain.username }}" -c "{{ join_domain.encrypted_password }}" -k "{{ join_domain.key }}" --mode saltstack'
 {%- else %}
     - name: 'find-collisions.sh -d "{{ join_domain.dns_name }}" -u "{{ join_domain.username }}" -p "{{ join_domain.password }}" --mode saltstack'
+{%- endif %}
+{%- if salt['pillar.get']('join-domain:lookup:ad_connector', None) == 'pbis' %}
+    - unless: /opt/pbis/bin/domainjoin-cli query | grep -qi "Distinguished Name"
 {%- endif %}
     - require:
       - pkg: RPM-installs

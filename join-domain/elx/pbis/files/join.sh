@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # shellcheck disable=SC2181,SC2236
 #
 # Helper-script to more-intelligently handle joining PBIS client

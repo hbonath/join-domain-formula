@@ -39,9 +39,11 @@ PBIS-join:
     - cwd: '/root'
     - stateful: True
     - output_loglevel: quiet
+    - unless: {{ join_domain.install_bin_dir }}/bin/domainjoin-cli query | grep -qi "Distinguished Name"
     - require:
       - cmd: PBIS-NETBIOSfix
 
+{%- if salt['grains.get']('os_family') == 'RedHat' %}
 PBIS-PamPasswordDemunge:
   cmd.script:
     - name: 'fix-pam.sh "/etc/pam.d/password-auth"'
@@ -59,6 +61,7 @@ PBIS-PamSystemDemunge:
     - stateful: True
     - require:
       - cmd: PBIS-join
+{%- endif %}
 
 {%- if usePbisDdns %}
 PBIS-DDNS:

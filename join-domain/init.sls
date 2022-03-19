@@ -7,7 +7,7 @@
 include:
   - join-domain.windows
 
-{%- elif os_family == 'RedHat' %}
+{%- elif os_family == 'RedHat' or os_family == 'Debian' %}
 
 include:
   - join-domain.elx

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck disable=SC2236,SC2207
 #
 # set -euo pipefail
@@ -451,8 +451,8 @@ then
   UsageMsg
 fi
 
-# Ensure dependencies are met
-VerifyDependencies
+# Ensure dependencies are met - disabled for Debian compatibility.
+# VerifyDependencies
 
 # Decrypt our query password (as necessary)
 if [[ ${BINDPASS} == TOBESET ]]

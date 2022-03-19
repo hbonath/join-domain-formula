@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # shellcheck disable=SC2155
 #
 # This script is designed to fix PAM stack-order munging that may

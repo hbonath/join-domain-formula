@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # shellcheck disable=SC2181
 #
 # Salt state for downloading, installing and configuring PBIS,

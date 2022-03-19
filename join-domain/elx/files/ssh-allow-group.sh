@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Add passed group-name to sshd_config's "AllowGroups" directive
 # if the passed group-name is not already present.

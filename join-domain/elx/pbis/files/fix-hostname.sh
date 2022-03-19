@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # The NETBIOS character-limit for hostnames is fifteen
 # characters. If PBIS attempts to join the host to a domain and
